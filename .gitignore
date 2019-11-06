@@ -1,0 +1,86 @@
+# Project Specific
+libcsv-3.0.3/.deps/*
+libcsv-3.0.3/.libs/*
+libcsv-3.0.3/Makefile
+libcsv-3.0.3/config.ChangeLog
+libcsv-3.0.3/config.status
+libcsv-3.0.3/libtool
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+
+libcsv-3.0.3/aclocal.m4
+libcsv-3.0.3/ChangeLog
+libcsv-3.0.3/config.guess
+libcsv-3.0.3/config.sub
+libcsv-3.0.3/configure
+libcsv-3.0.3/configure.ac
+libcsv-3.0.3/COPYING
+libcsv-3.0.3/COPYING.LESSER
+libcsv-3.0.3/csv.3
+libcsv-3.0.3/csv.h
+libcsv-3.0.3/csv.pdf
+libcsv-3.0.3/depcomp
+libcsv-3.0.3/examples/csvfix.c
+libcsv-3.0.3/examples/csvinfo.c
+libcsv-3.0.3/examples/csvtest.c
+libcsv-3.0.3/examples/csvvalid.c
+libcsv-3.0.3/FAQ
+libcsv-3.0.3/INSTALL
+libcsv-3.0.3/install-sh
+libcsv-3.0.3/libcsv.c
+libcsv-3.0.3/ltmain.sh
+libcsv-3.0.3/m4/libtool.m4
+libcsv-3.0.3/m4/ltoptions.m4
+libcsv-3.0.3/m4/ltsugar.m4
+libcsv-3.0.3/m4/ltversion.m4
+libcsv-3.0.3/m4/lt~obsolete.m4
+libcsv-3.0.3/Makefile.am
+libcsv-3.0.3/Makefile.in
+libcsv-3.0.3/missing
+libcsv-3.0.3/README
+libcsv-3.0.3/test_csv.c
+libcsv-3.0.3/tests/test_01.csv
+libcsv-3.0.3/tests/test_02.csv
+libcsv-3.0.3/tests/test_03.csv
+libcsv-3.0.3/tests/test_04.csv
+libcsv-3.0.3/tests/test_05.csv
+libcsv-3.0.3/tests/test_06.csv
+libcsv-3.0.3/tests/test_07.csv
+libcsv-3.0.3/tests/test_08.csv
+libcsv-3.0.3/tests/test_09.csv
+libcsv-3.0.3/tests/test_10.csv
+libcsv-3.0.3/tests/test_11.csv
+libcsv-3.0.3/tests/test_12.csv
+libcsv-3.0.3/tests/test_13.csv
