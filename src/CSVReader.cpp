@@ -1,18 +1,18 @@
 #include "CSVReader.h"
 
 
-CCSVReader(std::istream &in){
+CCSVReader::CCSVReader(std::istream &in){
 
 }
 
-~CCSVReader(){
+CCSVReader::~CCSVReader(){
 
 }
         
-bool End() const{
+bool CCSVReader::End() const{
 
 }
 
-bool ReadRow(std::vector< std::string > &row){
+bool CCSVReader::ReadRow(std::vector< std::string > &row){
     
 }

@@ -1,3 +1,4 @@
+#include <gtest/gtest.h>
 #include "CSVReader.h"
 #include <sstream>
 
@@ -7,6 +8,7 @@ TEST(CSVReader, EmptyTest){
     CCSVReader Reader(Input);
 
     EXPECT_TRUE(Reader.End());
+	
 }
 
 TEST(CSVReader, SingleLineTest){
@@ -27,6 +29,6 @@ TEST(CSVReader, SingleLineTest){
     }
 
     EXPECT_TRUE(Reader.End());
-
+	
 }
 

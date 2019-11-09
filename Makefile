@@ -37,7 +37,7 @@ $(TESTBINDIR)/$(CSVTEST): $(OBJDIR)/testcsv.o $(CSVOBJS) $(CSVLIBDIR)/.libs/$(CS
 $(OBJDIR)/testcsv.o: $(SRCDIR)/testcsv.cpp $(INCDIR)/CSVReader.h
 	$(CXX) $(CXXFLAGS) $(SRCDIR)/testcsv.cpp -c -o $(OBJDIR)/testcsv.o
 
-$(OBJDIR)/testcsv.o: $(SRCDIR)/CSVReader.cpp $(INCDIR)/CSVReader.h
+$(OBJDIR)/CSVReader.o: $(SRCDIR)/CSVReader.cpp $(INCDIR)/CSVReader.h
 	$(CXX) $(CXXFLAGS) $(SRCDIR)/CSVReader.cpp -c -o $(OBJDIR)/CSVReader.o
 
 
@@ -52,6 +52,8 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 $(TESTBINDIR):
+	mkdir -p $(TESTBINDIR)
+
 
 
 clean:
@@ -60,4 +62,3 @@ clean:
 	rm -f $(OBJDIR)/*.o
 	rm -f $(BINDIR)/*
 	rm -f $(TESTBINDIR)/*
-	rm -f
