@@ -8,7 +8,7 @@
 
 class CCSVReader{
     protected:
-        
+        std::istream inStream;
         
     public:
         CCSVReader(std::istream &in);
