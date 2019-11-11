@@ -6,7 +6,6 @@
 CCSVReader::CCSVReader(std::istream &in):In(in) {
 
 	//starting with CSV_STRICT
-	end = true; //initializes end to false 
 	csv_init(&Data, CSV_STRICT);//pass a pointer to the struct object, initialized parser
 
 }
@@ -19,7 +18,7 @@ CCSVReader::~CCSVReader(){
 }
         
 bool CCSVReader::End() const{
-	return end;
+	return In.peek() == EOF;
 }
 
 void CCSVReader::CallBack(void* data, size_t type, void* callData) {//void CCSVReader::CallBack(const char* data, size_t type, void* callData) {
