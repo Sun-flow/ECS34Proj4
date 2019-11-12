@@ -12,7 +12,8 @@ TESTBINDIR=./testbin
 CXXFLAGS = --std=c++14 -I $(INCDIR) -I $(CSVLIBDIR)
 TESTLDFLAGS= -lgtest -lgtest_main -lpthread
 
-CSVOBJS=$(OBJDIR)/CSVReader.o
+CSVOBJS=$(OBJDIR)/CSVReader.o	\
+				$(OBJDIR)/CSVWriter.o
 
 CSVTEST=testcsv
 
@@ -27,19 +28,20 @@ RUNCSVTEST: $(TESTBINDIR)/$(CSVTEST)
 $(CSVLIBDIR)/.libs/$(CSVLIB): $(CSVLIBDIR)/Makefile
 	cd $(CSVLIBDIR); make; cd ..
 
-
 $(CSVLIBDIR)/Makefile:
 	cd $(CSVLIBDIR); ./configure ; cd ..
 
 $(TESTBINDIR)/$(CSVTEST): $(OBJDIR)/testcsv.o $(CSVOBJS) $(CSVLIBDIR)/.libs/$(CSVLIB)
 	$(CXX) $(CXXFLAGS) $(OBJDIR)/testcsv.o $(CSVOBJS) $(CSVLIBDIR)/.libs/$(CSVLIB) -o $(TESTBINDIR)/$(CSVTEST) $(TESTLDFLAGS)
 
-$(OBJDIR)/testcsv.o: $(SRCDIR)/testcsv.cpp $(INCDIR)/CSVReader.h
-	$(CXX) $(CXXFLAGS) $(SRCDIR)/testcsv.cpp -c -o $(OBJDIR)/testcsv.o
+$(OBJDIR)/testcsv.o: $(SRCDIR)/testcsv.cpp $(INCDIR)
+	$(CXX) $(CXXFLAGS) $(SRCDIR)/testcsv.cpp -c -o $(OBJDIR)/testcsv.o $(CXXFLAGS)
 
 $(OBJDIR)/CSVReader.o: $(SRCDIR)/CSVReader.cpp $(INCDIR)/CSVReader.h
-	$(CXX) $(CXXFLAGS) $(SRCDIR)/CSVReader.cpp -c -o $(OBJDIR)/CSVReader.o
+	$(CXX) $(CXXFLAGS) $(SRCDIR)/CSVReader.cpp -c -o $(OBJDIR)/CSVReader.o $(CXXFLAGS)
 
+$(OBJDIR)/CSVWriter.o: $(SRCDIR)/CSVWriter.cpp $(INCDIR)/CSVWriter.h
+	$(CXX) $(CXXFLAGS) $(SRCDIR)/CSVWriter.cpp -c -o $(OBJDIR)/CSVWriter.o $(CXXFLAGS)
 
 
 
