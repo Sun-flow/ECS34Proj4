@@ -8,8 +8,6 @@
 #include <csv.h>
 
 class CCSVReader{
-
-	bool end;
     protected:
 
 		std::list < std::vector < std::string > > Buffered;
