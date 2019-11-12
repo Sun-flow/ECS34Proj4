@@ -11,6 +11,7 @@ class CCSVReader{
 
 	bool end;
     protected:
+
 		std::list < std::vector < std::string > > Buffered;
 		std::vector< std::string > curRow;
 		std::istream &In;
