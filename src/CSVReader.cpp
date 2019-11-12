@@ -30,6 +30,7 @@ void CCSVReader::CallBack(void* data, size_t type, void* callData) {//void CCSVR
 	const char* dataPtr = static_cast<const char*>(data);
 	std::string dataString(dataPtr, type); //converting the c-string into a C++ string
 	ptr->curRow.push_back(dataString); //shouldn't be nullterminated
+	
 	//std::cout << "the currect size of the Row vector is: " << ptr->curRow.size() << std::endl;
 	//std::cout << "the string pushed in is: " << dataString << std::endl;
 
@@ -46,25 +47,42 @@ void CCSVReader::CallBack2(int c, void* callData) {
 }
 
 bool CCSVReader::ReadRow(std::vector< std::string > &row){
-	//std::cout << __LINE__ << " inside readRow " << __FILE__ << std::endl;
+	std::cout << __LINE__ << " inside readRow " << __FILE__ << std::endl;
+	int count = 0;
 	while (Buffered.empty()) {
-	//	std::cout << __LINE__ << " inside readRow " << __FILE__ << " checking if Buffered is empty()\n";
+		std::cout << __LINE__ << " inside readRow " << __FILE__ << " checking if Buffered is empty()\n";
 
 		char TempData[128];
 		In.read(TempData, sizeof(TempData)); 
 		size_t BytesRead = In.gcount(); 
 		csv_parse(&Data, TempData, BytesRead, CallBack, CallBack2, this); 
-		if (!(Buffered.empty())) {
-
+		
+		while (!(Buffered.empty())) {
+			std::cout << "Buffer NOT Empty" << std::endl;
+			std::cout << "the size of the buffer: " << Buffered.size() << std::endl;
 			row = Buffered.front(); //get first element
+			std::cout << "Buffered[" << count << "]: ";
+			for(auto str : Buffered.front()){
+				std::cout << str << ", ";
+			} 
+			std::cout << std::endl;
+
+			std::cout << "Row[" << count << "]: ";
+			for(auto str : row){
+				std::cout << str << ", ";
+			} 
+			std::cout << std::endl;
+			count++;
 			//std::cout << "current vector of strings\n";
-			//for (auto str : row)
-			//	std::cout << str << " ";
+			//std::cout << str << " ";
 			//std::cout << std::endl;
+
 			Buffered.pop_front(); //delete first element
 			//std::cout << __LINE__ << " inside " << __FILE__ << std::endl;
-
-			return true;
+			if(Buffered.empty()){
+				std::cout << "Buffer empty, output TRUE" << std::endl;
+				return true;
+			}
 		}
 	}
 	//std::cout << __LINE__ << " inside " << __FILE__ << std::endl;
