@@ -8,22 +8,21 @@
 #include <csv.h>
 
 class CCSVReader{
+  protected:
+		std::istream &DIn;
+		struct csv_parser DParser; //i need to initialize or parser will be lost
+    std::list < std::vector < std::string > > DBufferedRows;
+		std::vector< std::string > DCurrentRow;
+    static void EndOfColumn(void *str, size_t len, void *reader);
+    static void EndOfRow(int ch, void *reader);
 
-	bool end;
-    protected:
-		std::list < std::vector < std::string > > Buffered;
-		std::vector< std::string > curRow;
-		std::istream &In;
-		struct csv_parser Data; //i need to initialize or parser will be lost
-		static void CallBack(void* data, size_t type, void* callData);
-		static void CallBack2(int c, void* data);
-
-    public:
+  public:
         CCSVReader(std::istream &in);
         ~CCSVReader();
         
         bool End() const;
         bool ReadRow(std::vector< std::string > &row);
 };
+
 
 #endif
