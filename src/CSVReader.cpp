@@ -14,7 +14,10 @@ CCSVReader::~CCSVReader(){
 }
         
 bool CCSVReader::End() const{
-
+	if(!DIn.eof()){
+		DIn.peek();
+	}
+	return DIn.eof() and DBufferedRows.empty();
 }
 
 void CCSVReader::EndOfColumn(void *str, size_t len, void *reader){
