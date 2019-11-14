@@ -5,13 +5,14 @@
 #include <istream>
 #include <expat.h>
 #include <list>
+#include <vector>
 
 class CXMLReader{
     private:
         std::istream &DInput;
         XML_Parser DParser;
 
-        std::list<SXMLEntity> BufferedEntity;
+        std::list< SXMLEntity > BufferedEntity;
     public:
         CXMLReader(std::istream &is);
         ~CXMLReader();

@@ -27,7 +27,7 @@ TEST(XMLReader, SimpleTest){
     std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
     EXPECT_EQ(Entity.DNameData, "tag");
     std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
-    /*EXPECT_TRUE(Reader.ReadEntity(Entity));
+    EXPECT_TRUE(Reader.ReadEntity(Entity));
     EXPECT_EQ(Entity.DType, SXMLEntity::EType::StartElement);
     EXPECT_EQ(Entity.DNameData, "other");
     EXPECT_TRUE(Reader.ReadEntity(Entity));
@@ -35,7 +35,7 @@ TEST(XMLReader, SimpleTest){
     EXPECT_EQ(Entity.DNameData, "other");
     EXPECT_TRUE(Reader.ReadEntity(Entity));
     EXPECT_EQ(Entity.DType, SXMLEntity::EType::EndElement);
-    EXPECT_EQ(Entity.DNameData, "tag");*/
+    EXPECT_EQ(Entity.DNameData, "tag");
 
     //should have more tests
 }
