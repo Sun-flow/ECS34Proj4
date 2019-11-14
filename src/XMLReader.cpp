@@ -6,7 +6,7 @@ CXMLReader::CXMLReader(std::istream &is) : DInput(is){
     XML_SetUserData(DParser, this);
     //set handlers/callback functions (Chardata, startelement, endelement)
     XML_SetElementHandler(DParser, StartElemHandler, EndElemHandler);
-    //XML_SetCharacterDataHandler(DParser, CharDataHandler);
+    XML_SetCharacterDataHandler(DParser, CharDataHandler);
 }
 
 CXMLReader::~CXMLReader(){
@@ -14,8 +14,12 @@ CXMLReader::~CXMLReader(){
 }
 
 void CXMLReader::CharDataHandler(void *userData, const XML_Char *s, int len){
+	SXMLEntity Entity;
     auto Reader = static_cast<CXMLReader *>(userData);
-    std::string(s, len);
+	Entity.DType = SXMLEntity::EType::CharData;
+	Entity.DNameData =	std::string(s, len);
+	Reader->BufferedEntity.push_back(Entity);
+
 }
 
 void CXMLReader::StartElemHandler(void *userData, const XML_Char *name, const XML_Char **atts){
