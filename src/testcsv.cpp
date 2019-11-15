@@ -47,28 +47,12 @@ TEST(CSVReader, MultiLineTest){
     std::vector<std::string> Row;
 
     EXPECT_TRUE(Reader.ReadRow(Row));
-    std::cout << "Row is: ";
-    for(auto str : Row){
-        std::cout << str << ", ";
-    }
     EXPECT_EQ(Row.size(), 4);
     EXPECT_TRUE(Reader.ReadRow(Row));
-    std::cout << "Row is: ";
-    for(auto str : Row){
-        std::cout << str << ", ";
-    }
-
     EXPECT_EQ(Row.size(), 2);
     EXPECT_TRUE(Reader.ReadRow(Row));
     EXPECT_EQ(Row.size(), 3);
     EXPECT_FALSE(Reader.ReadRow(Row));
-
-    std::cout << "Row is: ";
-    for(auto str : Row){
-        std::cout << str << ", ";
-    }
-    std::cout << std::endl;
-
     if(5 <= Row.size()){
 
     }

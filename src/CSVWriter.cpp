@@ -20,9 +20,7 @@ bool CCSVWriter::WriteRow(const std::vector< std::string > &row){
 		else
 			editStr = editStr + "\"" + row[i] + "\"";
 	}
-
 	outStream << editStr << std::endl;
-	std::cout << editStr << std::endl;
     return true;
 }
 

@@ -24,7 +24,6 @@ void CCSVReader::EndOfColumn(void *str, size_t len, void *reader){
 	auto Reader = static_cast<CCSVReader *>(reader);
 	auto Column = std::string(static_cast<const char *>(str), len);
 	Reader->DCurrentRow.push_back(Column);
-	std::cout << "@ " << __LINE__ << " Column = \"" << Column << "\"" << std::endl;
 }
 
 
@@ -32,7 +31,6 @@ void CCSVReader::EndOfRow(int ch, void *reader){
 	auto Reader = static_cast<CCSVReader *>(reader);
 	Reader->DBufferedRows.push_back(Reader->DCurrentRow);
 	Reader->DCurrentRow.clear();
-	std::cout << "Row @ " << __LINE__ << std::endl;
 }
 
 bool CCSVReader::ReadRow(std::vector< std::string > &row){
