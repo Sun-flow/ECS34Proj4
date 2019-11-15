@@ -14,7 +14,7 @@ CCSVReader::~CCSVReader(){
 }
         
 bool CCSVReader::End() const{
-	if (not DIn.eof()) {
+	if(!DIn.eof()){
 		DIn.peek();
 	}
 	return DIn.eof() and DBufferedRows.empty();

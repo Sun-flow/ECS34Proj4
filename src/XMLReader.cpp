@@ -29,10 +29,12 @@ void CXMLReader::StartElemHandler(void *userData, const XML_Char *name, const XM
     Entity.DType = SXMLEntity::EType::StartElement;
     //std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
     Entity.DNameData = static_cast<const char *>(name); 
-    //std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
-
-    //Entity.SetAttribute(static_cast<std::string>(atts[0]), static_cast<std::string>(atts[0]));
-    //std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
+    std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
+    if(atts[0] != NULL){
+        std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
+        //Entity.SetAttribute(atts[0].first()), atts[0].second());
+    }
+    std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
     //std::cout << "Name: " << Entity.DNameData << std::endl;
     Reader->BufferedEntity.push_back(Entity);
     std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
@@ -58,7 +60,6 @@ bool CXMLReader::End(){
 
 bool CXMLReader::ReadEntity(SXMLEntity &entity, bool skipcdata){
     char Buffer[1024];
-    //std::cout << __FILE__ << "@ " << __LINE__ << std::endl;
     DInput.read(Buffer, sizeof(Buffer));
     //std::cout << __FILE__<< "@ " << __LINE__ << std::endl;
 
@@ -76,7 +77,5 @@ bool CXMLReader::ReadEntity(SXMLEntity &entity, bool skipcdata){
 	}
 	
 
-    //std::cout << __FILE__<< "@ " << __LINE__ << std::endl;
-    //std::cout << __FILE__<< "@ " << __LINE__ << std::endl;
     return true;
 }
