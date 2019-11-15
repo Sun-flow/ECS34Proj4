@@ -61,9 +61,21 @@ bool CXMLReader::End(){
 bool CXMLReader::ReadEntity(SXMLEntity &entity, bool skipcdata){
     char Buffer[1024];
     DInput.read(Buffer, sizeof(Buffer));
-    XML_Parse(DParser, Buffer, DInput.gcount(), DInput.eof());
+    //std::cout << __FILE__<< "@ " << __LINE__ << std::endl;
 
-    entity = BufferedEntity.front();
-    BufferedEntity.pop_front();
+    XML_Parse(DParser, Buffer, DInput.gcount(), DInput.eof());
+    //std::cout << __FILE__<< "@ " << __LINE__ << std::endl;
+	if (entity.DType == SXMLEntity::EType::CharData & skipcdata) {
+		BufferedEntity.clear();
+		std::cout << "inside chardata \"" << entity.DNameData << "\"\n";
+	}
+	else {
+		entity = BufferedEntity.front();
+		BufferedEntity.pop_front();
+		std::cout << "not chardata : \"" << entity.DNameData << "\"" << std::endl;
+
+	}
+	
+
     return true;
 }
