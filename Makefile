@@ -1,31 +1,35 @@
-CXX=g++
+CXX			=g++
 
-CSVLIBDIR=libcsv-3.0.3
-CSVLIB=libcsv.a
+CSVLIBDIR	=libcsv-3.0.3
+CSVLIB		=libcsv.a
 
-INCDIR=./include
-SRCDIR=./src
-BINDIR=./bin
-OBJDIR=./obj
-TESTBINDIR=./testbin
+INCDIR		=./include
+SRCDIR		=./src
+BINDIR		=./bin
+OBJDIR		=./obj
+TESTBINDIR	=./testbin
 
-CXXFLAGS = --std=c++14 -I $(INCDIR) -I $(CSVLIBDIR)
-TESTLDFLAGS= -lgtest -lgtest_main -lpthread
-XMLLDFLAGS= -lexpat
+CXXFLAGS 	= --std=c++14 -I $(INCDIR) -I $(CSVLIBDIR)
+TESTLDFLAGS	= -lgtest -lgtest_main -lpthread
+XMLLDFLAGS	= -lexpat
 
-CSVOBJS=$(OBJDIR)/CSVReader.o	\
-				$(OBJDIR)/CSVWriter.o \
-				$(OBJDIR)/StringUtils.o
+PROJ_NAME	= proj4
 
-XMLOBJS=$(OBJDIR)/XMLReader.o	\
-				$(OBJDIR)/XMLWriter.o
+MAIN_OBJ	=$(OBJDIR)/main.o
 
-CSVTEST=testcsv
+CSVOBJS		=$(OBJDIR)/CSVReader.o	\
+			$(OBJDIR)/CSVWriter.o \
+			$(OBJDIR)/StringUtils.o
 
-XMLTEST=testxml
+XMLOBJS		=$(OBJDIR)/XMLReader.o	\
+			$(OBJDIR)/XMLWriter.o
+
+CSVTEST		=testcsv
+
+XMLTEST		=testxml
 
 
-all: $(CSVLIBDIR)/.libs/$(CSVLIB) directories RUNTESTS
+all: $(CSVLIBDIR)/.libs/$(CSVLIB) directories RUNTESTS $(BINDIR)/$(PROJ_NAME)
 
 RUNTESTS: RUNCSVTEST RUNXMLTEST
 
@@ -40,6 +44,9 @@ $(CSVLIBDIR)/.libs/$(CSVLIB): $(CSVLIBDIR)/Makefile
 
 $(CSVLIBDIR)/Makefile:
 	cd $(CSVLIBDIR); ./configure ; cd ..
+
+$(BINDIR)/$(PROJ_NAME): $(CSVOBJS) $(XMLOBJS) $(MAIN_OBJ)
+	$(CXX) $(MAIN_OBJ) $(CSVOBJS) $(XMLOBJS) $(SRCDIR)/main.cpp -o $(BINDIR)/$(PROJ_NAME) $(CXXFLAGS) $(TESTLDFLAGS) $(XMLLDFLAGS)
 
 $(TESTBINDIR)/$(CSVTEST): $(OBJDIR)/testcsv.o $(CSVOBJS) $(CSVLIBDIR)/.libs/$(CSVLIB)
 	$(CXX) $(CXXFLAGS) $(OBJDIR)/testcsv.o $(CSVOBJS) $(CSVLIBDIR)/.libs/$(CSVLIB) -o $(TESTBINDIR)/$(CSVTEST) $(TESTLDFLAGS)
@@ -67,6 +74,9 @@ $(OBJDIR)/XMLReader.o: $(SRCDIR)/XMLReader.cpp $(INCDIR)/XMLReader.h
 	
 $(OBJDIR)/XMLWriter.o: $(SRCDIR)/XMLWriter.cpp $(INCDIR)/XMLWriter.h
 	$(CXX) $(CXXFLAGS) $(SRCDIR)/XMLWriter.cpp -c -o $(OBJDIR)/XMLWriter.o $(CXXFLAGS)
+
+$(MAIN_OBJ): $(SRCDIR)/main.cpp 
+	$(CXX) $(CXXFLAGS) $(SRCDIR)/main.cpp -c -o $(OBJDIR)/main.o  
 
 directories: $(BINDIR) $(OBJDIR) $(TESTBINDIR)
 
