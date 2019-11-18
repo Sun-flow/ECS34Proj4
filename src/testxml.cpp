@@ -59,8 +59,79 @@ TEST(XMLReader, SimpleCharacterDataTest) {
 	EXPECT_EQ(Entity.DType, SXMLEntity::EType::EndElement);
 	EXPECT_EQ(Entity.DNameData, "tag");
 
+
+    std::ifstream Input2("proj4data/smallmanifest.xml");
+	CXMLReader Reader2(Input2);
+	SXMLEntity inEntity;
+
+	EXPECT_TRUE(Reader2.ReadEntity(inEntity));
+	EXPECT_EQ(inEntity.DType, SXMLEntity::EType::StartElement);
+	EXPECT_EQ(inEntity.DNameData, "NAMEFILES");
+    EXPECT_TRUE(Reader2.ReadEntity(inEntity, true));
+	EXPECT_EQ(inEntity.DType, SXMLEntity::EType::StartElement);
+	EXPECT_EQ(inEntity.DNameData, "NAMEFILE");
+    EXPECT_TRUE(inEntity.AttributeExists("FILENAME"));
+    EXPECT_EQ(inEntity.AttributeValue("FILENAME"), "ENG1996.csv");
+    EXPECT_TRUE(inEntity.AttributeExists("COUNTRY"));
+    EXPECT_EQ(inEntity.AttributeValue("COUNTRY"), "ENGLAND");
+    EXPECT_TRUE(inEntity.AttributeExists("FILENAME"));
+    EXPECT_EQ(inEntity.AttributeValue("YEAR"), "1996");
+
+    EXPECT_TRUE(Reader2.ReadEntity(inEntity, true));
+    EXPECT
+
+    EXPECT_TRUE(Reader2.ReadEntity(inEntity, true));
+	EXPECT_EQ(inEntity.DType, SXMLEntity::EType::StartElement);
+	EXPECT_EQ(inEntity.DNameData, "NAMEFILE");
+    EXPECT_TRUE(inEntity.AttributeExists("FILENAME"));
+    EXPECT_EQ(inEntity.AttributeValue("FILENAME"), "ENG1997.csv");
+    EXPECT_TRUE(inEntity.AttributeExists("COUNTRY"));
+    EXPECT_EQ(inEntity.AttributeValue("COUNTRY"), "ENGLAND");
+    EXPECT_TRUE(inEntity.AttributeExists("FILENAME"));
+    EXPECT_EQ(inEntity.AttributeValue("YEAR"), "1997");
+
+
+    EXPECT_TRUE(Reader2.ReadEntity(inEntity, true));
+	EXPECT_EQ(inEntity.DType, SXMLEntity::EType::StartElement);
+	EXPECT_EQ(inEntity.DNameData, "NAMEFILE");
+    EXPECT_TRUE(inEntity.AttributeExists("FILENAME"));
+    EXPECT_EQ(inEntity.AttributeValue("FILENAME"), "ENG1998.csv");
+    EXPECT_TRUE(inEntity.AttributeExists("COUNTRY"));
+    EXPECT_EQ(inEntity.AttributeValue("COUNTRY"), "ENGLAND");
+    EXPECT_TRUE(inEntity.AttributeExists("FILENAME"));
+    EXPECT_EQ(inEntity.AttributeValue("YEAR"), "1998");
+
 	//should have more tests
 }
+
+/*TEST(XMLReader, AttributeTest){
+    std::stringstream Input("<tag FILENAME=\"ENG1997.csv\"><other>uuuu</other></tag>");
+	CXMLReader Reader(Input);
+	SXMLEntity Entity;
+
+	EXPECT_TRUE(Reader.ReadEntity(Entity));
+	EXPECT_EQ(Entity.DType, SXMLEntity::EType::StartElement);
+	EXPECT_EQ(Entity.DNameData, "tag");
+    EXPECT_EQ(Entity.DAttributes[0].first, "FILENAME");
+    EXPECT_EQ(Entity.DAttributes[0].second, "ENG1997.csv");
+	EXPECT_TRUE(Reader.ReadEntity(Entity));
+	EXPECT_EQ(Entity.DType, SXMLEntity::EType::StartElement);
+	EXPECT_EQ(Entity.DNameData, "other");
+
+	EXPECT_TRUE(Reader.ReadEntity(Entity));
+	EXPECT_EQ(Entity.DType, SXMLEntity::EType::CharData);
+	EXPECT_EQ(Entity.DNameData, "uuuu");
+
+	EXPECT_TRUE(Reader.ReadEntity(Entity));
+	EXPECT_EQ(Entity.DType, SXMLEntity::EType::EndElement);
+	EXPECT_EQ(Entity.DNameData, "other");
+	EXPECT_TRUE(Reader.ReadEntity(Entity));
+	EXPECT_EQ(Entity.DType, SXMLEntity::EType::EndElement);
+	EXPECT_EQ(Entity.DNameData, "tag");
+
+
+}
+*/
 
 TEST(XMLReader, AvoidingCharacterDataTest) {
 	std::stringstream Input("<tag><other>uuuu</other></tag>");
@@ -73,11 +144,6 @@ TEST(XMLReader, AvoidingCharacterDataTest) {
 	EXPECT_TRUE(Reader.ReadEntity(Entity, true));
 	EXPECT_EQ(Entity.DType, SXMLEntity::EType::StartElement);
 	EXPECT_EQ(Entity.DNameData, "other");
-
-	EXPECT_TRUE(Reader.ReadEntity(Entity, true));
-	//EXPECT_EQ(Entity.DType, SXMLEntity::EType::CharData);
-    //EXPECT_FALSE(Entity.DNameData == "uuuu");
-	//Find new way to test
 
 	EXPECT_TRUE(Reader.ReadEntity(Entity, true));
 	EXPECT_EQ(Entity.DType, SXMLEntity::EType::EndElement);
