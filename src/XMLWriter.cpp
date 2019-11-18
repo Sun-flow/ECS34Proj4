@@ -24,7 +24,6 @@ bool CXMLWriter::Flush(){
 
 bool CXMLWriter::WriteEntity(const SXMLEntity &entity){
     if(entity.DType == SXMLEntity::EType::StartElement){
-        std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
         if(entity.DNameData == ""){
             return false;
         }
@@ -36,12 +35,10 @@ bool CXMLWriter::WriteEntity(const SXMLEntity &entity){
         return true;
     }
     else if(entity.DType == SXMLEntity::EType::EndElement){
-        std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
         outStream << "</" << EndElements.back().DNameData << ">";
         return true;
     }
     else if(entity.DType == SXMLEntity::EType::CharData){
-        std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
         outStream << entity.DNameData;
         return true;
     }

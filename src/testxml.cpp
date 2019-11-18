@@ -91,22 +91,14 @@ TEST(XMLReader, AvoidingCharacterDataTest) {
 
 TEST(XMLWriter, EmptyTest){
 
-    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
     std::filebuf Out;
-    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
     std::ostream Output(&Out);
-    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
     
     CXMLWriter Writer(Output);
-    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
 
     SXMLEntity entity;
-    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
 
-    EXPECT_FALSE(Writer.WriteEntity(entity));
-    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
-    std::cout << "End Empty Test" << std::endl;
-	
+    EXPECT_FALSE(Writer.WriteEntity(entity));	
 }
 
 TEST(XMLWriter, SimpleTest){
@@ -114,7 +106,7 @@ TEST(XMLWriter, SimpleTest){
     CXMLReader Reader(Input);
 
     std::filebuf Out;
-    Out.open("XMLOutSimpleTest.txt", std::ios::out);
+    Out.open("XMLOutSimpleTest.xml", std::ios::out);
 
     std::ostream Output(&Out);
     CXMLWriter Writer(Output);
@@ -129,6 +121,32 @@ TEST(XMLWriter, SimpleTest){
     EXPECT_TRUE(Writer.WriteEntity(Entity));
     EXPECT_TRUE(Reader.ReadEntity(Entity));
     EXPECT_TRUE(Writer.WriteEntity(Entity));
+
+/*
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    std::ifstream inFile("XMLOutSimpleTest.xml");
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    CXMLReader Reader2(inFile);
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    SXMLEntity inEntity;
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+
+    EXPECT_TRUE(Reader2.ReadEntity(inEntity));
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    EXPECT_EQ(inEntity.DType, SXMLEntity::EType::StartElement);
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    EXPECT_EQ(inEntity.DNameData, "tag");
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    EXPECT_TRUE(Reader2.ReadEntity(inEntity));
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    EXPECT_EQ(inEntity.DType, SXMLEntity::EType::StartElement);
+    EXPECT_EQ(inEntity.DNameData, "other");
+    EXPECT_TRUE(Reader2.ReadEntity(inEntity));
+    EXPECT_EQ(inEntity.DType, SXMLEntity::EType::EndElement);
+    EXPECT_EQ(inEntity.DNameData, "other");
+    EXPECT_TRUE(Reader2.ReadEntity(inEntity));
+    EXPECT_EQ(inEntity.DType, SXMLEntity::EType::EndElement);
+    EXPECT_EQ(inEntity.DNameData, "tag");
 
     /*EXPECT_EQ(Output, "<tag><other></other></tag>");*/
 }
