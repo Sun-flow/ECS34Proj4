@@ -35,6 +35,9 @@ bool CXMLWriter::WriteEntity(const SXMLEntity &entity){
         return true;
     }
     else if(entity.DType == SXMLEntity::EType::EndElement){
+        if(entity.DNameData == EndElements.back().DNameData){
+            EndElements.pop_back();
+        }
         outStream << "</" << EndElements.back().DNameData << ">";
         return true;
     }
