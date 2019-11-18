@@ -78,7 +78,7 @@ TEST(XMLReader, SimpleCharacterDataTest) {
     EXPECT_EQ(inEntity.AttributeValue("YEAR"), "1996");
 
     EXPECT_TRUE(Reader2.ReadEntity(inEntity, true));
-    EXPECT
+    EXPECT_EQ(inEntity.DType, SXMLEntity::EType::EndElement);
 
     EXPECT_TRUE(Reader2.ReadEntity(inEntity, true));
 	EXPECT_EQ(inEntity.DType, SXMLEntity::EType::StartElement);
@@ -90,6 +90,8 @@ TEST(XMLReader, SimpleCharacterDataTest) {
     EXPECT_TRUE(inEntity.AttributeExists("FILENAME"));
     EXPECT_EQ(inEntity.AttributeValue("YEAR"), "1997");
 
+    EXPECT_TRUE(Reader2.ReadEntity(inEntity, true));
+    EXPECT_EQ(inEntity.DType, SXMLEntity::EType::EndElement);
 
     EXPECT_TRUE(Reader2.ReadEntity(inEntity, true));
 	EXPECT_EQ(inEntity.DType, SXMLEntity::EType::StartElement);
