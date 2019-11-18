@@ -15,9 +15,12 @@ int main(){
         
     CXMLReader XMLReader(inputXML); //Get manifest, needs update on file input
 
-    
+    struct Gender{
+        int male = 0;
+        int female = 0;
+    }
 
-    std::map<std::string , std::map> Names;
+    std::map<std::string , std::map< std::map< std::string , std::map< int , Gender > Names;
     
 
     while(!XMLReader.end()){//Read in XML data
@@ -37,26 +40,13 @@ int main(){
             CSVReader.ReadRow(&row); 
 
             std::string inName = row[0];
-            
-            if(!Names.find(inName)){ //If name does not already exist, set up its associated maps. Might be some scoping issues here, but logic stands once those are fixed
-                std::map<std::string , int> Values;
-                std::map<std::string, int> Gender;
-                std::map<std::string, int> Country;
-                std::map<std::string, int> Year;
-                std::string inGender = row[1]; 
-                
-                Gender[inGender] = row[2];
-                Country[inCountry] = row[2];
-                Year[inYear] = row[2];
-
-                Values["Gender"] = Gender;
-                Values["Country"] = Country;
-                Values["Year"] = Year;
+            std::string inGender = row[1]
+            int inData = row[2];
+            if(inGender == "M"){
+                Names[inName][inCountry][inYear].male += inData;
             }
-            else{ //In case name already exists, just add new datas. This probably needs some updating to pass right value in to right place.
-                Names[inName].second["Gender"][row[1]] += row[2]; //Find inName, add count to its respective map. Structure should be Names< inName , inType< name , value > >
-                Names[inName].second["Country"][inCountry] += row[2];
-                Names[inName].second["Year"][inYear] += row[2];
+            else if(inData == "F"){
+                Names[inName].second[inCountry].second[inYear].female += inData;
             }
         }
     }
