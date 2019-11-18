@@ -76,7 +76,7 @@ TEST(XMLReader, AvoidingCharacterDataTest) {
 
 	EXPECT_TRUE(Reader.ReadEntity(Entity, true));
 	//EXPECT_EQ(Entity.DType, SXMLEntity::EType::CharData);
-	//EXPECT_FALSE(Entity.DNameData == "uuuu");
+    //EXPECT_FALSE(Entity.DNameData == "uuuu");
 	//Find new way to test
 
 	EXPECT_TRUE(Reader.ReadEntity(Entity, true));
@@ -90,12 +90,22 @@ TEST(XMLReader, AvoidingCharacterDataTest) {
 }
 
 TEST(XMLWriter, EmptyTest){
-    std::stringstream Output;
+
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    std::filebuf Out;
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    std::ostream Output(&Out);
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    
     CXMLWriter Writer(Output);
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
 
     SXMLEntity entity;
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
 
     EXPECT_FALSE(Writer.WriteEntity(entity));
+    std::cout << __FILE__ << "@: " << __LINE__ << std::endl;
+    std::cout << "End Empty Test" << std::endl;
 	
 }
 
@@ -104,12 +114,13 @@ TEST(XMLWriter, SimpleTest){
     CXMLReader Reader(Input);
 
     std::filebuf Out;
+    Out.open("XMLOutSimpleTest.txt", std::ios::out);
 
     std::ostream Output(&Out);
     CXMLWriter Writer(Output);
 
     SXMLEntity Entity;
-/*
+
     EXPECT_TRUE(Reader.ReadEntity(Entity));
     EXPECT_TRUE(Writer.WriteEntity(Entity));
     EXPECT_TRUE(Reader.ReadEntity(Entity));
@@ -119,6 +130,6 @@ TEST(XMLWriter, SimpleTest){
     EXPECT_TRUE(Reader.ReadEntity(Entity));
     EXPECT_TRUE(Writer.WriteEntity(Entity));
 
-    EXPECT_EQ(Output, "<tag><other></other></tag>");*/
+    /*EXPECT_EQ(Output, "<tag><other></other></tag>");*/
 }
 
