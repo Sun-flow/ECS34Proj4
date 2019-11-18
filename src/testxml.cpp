@@ -36,7 +36,7 @@ TEST(XMLReader, SimpleTest){
     //should have more tests
 }
 
-TEST(XMLReader, SimpleCharacterDataTest) {
+TEST(XMLReader, ComplexTest) {
 	std::stringstream Input("<tag><other>uuuu</other></tag>");
 	CXMLReader Reader(Input);
 	SXMLEntity Entity;
@@ -102,57 +102,6 @@ TEST(XMLReader, SimpleCharacterDataTest) {
     EXPECT_EQ(inEntity.AttributeValue("COUNTRY"), "ENGLAND");
     EXPECT_TRUE(inEntity.AttributeExists("FILENAME"));
     EXPECT_EQ(inEntity.AttributeValue("YEAR"), "1998");
-
-	//should have more tests
-}
-
-/*TEST(XMLReader, AttributeTest){
-    std::stringstream Input("<tag FILENAME=\"ENG1997.csv\"><other>uuuu</other></tag>");
-	CXMLReader Reader(Input);
-	SXMLEntity Entity;
-
-	EXPECT_TRUE(Reader.ReadEntity(Entity));
-	EXPECT_EQ(Entity.DType, SXMLEntity::EType::StartElement);
-	EXPECT_EQ(Entity.DNameData, "tag");
-    EXPECT_EQ(Entity.DAttributes[0].first, "FILENAME");
-    EXPECT_EQ(Entity.DAttributes[0].second, "ENG1997.csv");
-	EXPECT_TRUE(Reader.ReadEntity(Entity));
-	EXPECT_EQ(Entity.DType, SXMLEntity::EType::StartElement);
-	EXPECT_EQ(Entity.DNameData, "other");
-
-	EXPECT_TRUE(Reader.ReadEntity(Entity));
-	EXPECT_EQ(Entity.DType, SXMLEntity::EType::CharData);
-	EXPECT_EQ(Entity.DNameData, "uuuu");
-
-	EXPECT_TRUE(Reader.ReadEntity(Entity));
-	EXPECT_EQ(Entity.DType, SXMLEntity::EType::EndElement);
-	EXPECT_EQ(Entity.DNameData, "other");
-	EXPECT_TRUE(Reader.ReadEntity(Entity));
-	EXPECT_EQ(Entity.DType, SXMLEntity::EType::EndElement);
-	EXPECT_EQ(Entity.DNameData, "tag");
-
-
-}
-*/
-
-TEST(XMLReader, AvoidingCharacterDataTest) {
-	std::stringstream Input("<tag><other>uuuu</other></tag>");
-	CXMLReader Reader(Input);
-	SXMLEntity Entity;
-
-	EXPECT_TRUE(Reader.ReadEntity(Entity, true));
-	EXPECT_EQ(Entity.DType, SXMLEntity::EType::StartElement);
-	EXPECT_EQ(Entity.DNameData, "tag");
-	EXPECT_TRUE(Reader.ReadEntity(Entity, true));
-	EXPECT_EQ(Entity.DType, SXMLEntity::EType::StartElement);
-	EXPECT_EQ(Entity.DNameData, "other");
-
-	EXPECT_TRUE(Reader.ReadEntity(Entity, true));
-	EXPECT_EQ(Entity.DType, SXMLEntity::EType::EndElement);
-	EXPECT_EQ(Entity.DNameData, "other");
-	EXPECT_TRUE(Reader.ReadEntity(Entity, true));
-	EXPECT_EQ(Entity.DType, SXMLEntity::EType::EndElement);
-	EXPECT_EQ(Entity.DNameData, "tag");
 
 	//should have more tests
 }
