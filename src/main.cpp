@@ -59,9 +59,11 @@ int main(){
             int inData = std::stoi(row[2]);
             if(inGender == "M"){
                 Names[inName][inCountry][std::stoi(inYear)].male += inData;
+                Names[inName]["All"][std::stoi(inYear)].male += inData;
             }
             else if(inGender == "F"){
                 Names[inName][inCountry][std::stoi(inYear)].female += inData;
+                Names[inName]["All"][std::stoi(inYear)].female += inData;
             }
         }
     }
