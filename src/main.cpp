@@ -65,7 +65,7 @@ int main(){
             }
         }
     }
-/*
+
     bool end = false;
     do{
         std::string inName;
@@ -75,32 +75,30 @@ int main(){
         auto countryIter = Names.find(inName)->second.begin();
         double sexProb;
         std::string likelySex;
-        RollingAvg likelyYear;
+        int likelyYear;
 
         RollingAvg avg;
         
         
-        while(!countryIter.end()){ //Increment country
+        while(countryIter != Names.find(inName)->second.end()){ //Increment country
             
             int males = 0;
             int females = 0;
             auto yearIter = countryIter->second.begin();
-            while(!yearIter.end()){
-                males += yearIter.male;
-                females += yearIter.female;
+            while(yearIter != countryIter->second.end()){
+                males += yearIter->second.male;
+                females += yearIter->second.female;
                 
                 avg.totals[avg.index%3] = males + females;
                 avg.index++;
                 double tempAvg = 0;
                 for(int i = 0; i < 3; i++){
-                    tempAvg += avg.total[i]; 
+                    tempAvg += avg.totals[i]; 
                 }
                 if(tempAvg >= avg.Avg){
                     avg.Avg = tempAvg;
-                    avg.MidYear = yearIter.first - 1;
+                    likelyYear = yearIter->first - 1;
                 }
-                likelyYear = avg.MidYear;
-
                 yearIter++;
             }
 
@@ -115,14 +113,14 @@ int main(){
             }
             else{
                 likelySex = "M/F";
-                sexProb = 50
+                sexProb = 50;
             }
 
             countryIter++;
         }
-        printData(inName, likelySex, sexProb, likelyYear)
+        printData(inName, likelySex, sexProb, likelyYear);
     }while(!end);
-    //Do math about it*/
+    //Do math about it
 
     //Use input stream to have user give name, search and return math
 }
