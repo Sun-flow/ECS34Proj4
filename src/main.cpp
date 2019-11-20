@@ -26,12 +26,14 @@ void printData(std::string name, std::string likelySex, double sexProb, int high
     std::cout << "Year: " << highYear << std::endl;
 }
 
-int main(){
+int main(int argc, char** argv){
 
-    std::cout << "MAIN IS HERE" << std::endl;
+    
+	
+  //  std::ifstream Input("smallmanifest.xml", std::ifstream::in);
+	std::ifstream Input(argv[1]);
 
-    std::ifstream Input("proj4data/smallmanifest.xml", std::ifstream::in);
-    CXMLReader XMLReader(Input); //Get manifest, needs update on file input
+	CXMLReader XMLReader(Input); //Get manifest, needs update on file input
 
     std::map<std::string , std::map< std::string , std::map< int , Gender > > > Names;
     
@@ -39,29 +41,34 @@ int main(){
     while(!XMLReader.End()){//Read in XML data
         
         SXMLEntity entity;
-        XMLReader.ReadEntity(entity); //Take in first entity
-
+		for(int i = 0; i < 4; i++)
+			XMLReader.ReadEntity(entity); //Take in first entity
         //Set up necessary stuff using attributes read in
-        std::string inCountry = entity.AttributeValue("Country");
-        std::string inYear = entity.AttributeValue("Year");
+	
+		
 
-        std::ifstream Input(entity.AttributeValue("FILENAME"), std::ifstream::in);
-        CCSVReader CSVReader(Input);
+        std::string inCountry = entity.AttributeValue("COUNTRY");
+        std::string inYear = entity.AttributeValue("YEAR");
 
+        std::ifstream Input("proj4data/" + entity.AttributeValue("FILENAME"), std::ifstream::in);
+        CCSVReader Reader(Input);
         std::vector< std::string > row;
+		Reader.ReadRow(row);
+        while(!Reader.End()){
 
-        while(!CSVReader.End()){
+			Reader.ReadRow(row);
 
-            CSVReader.ReadRow(row); 
 
             std::string inName = row[0];
             std::string inGender = row[1];
             int inData = std::stoi(row[2]);
             if(inGender == "M"){
+
                 Names[inName][inCountry][std::stoi(inYear)].male += inData;
                 Names[inName]["All"][std::stoi(inYear)].male += inData;
             }
             else if(inGender == "F"){
+
                 Names[inName][inCountry][std::stoi(inYear)].female += inData;
                 Names[inName]["All"][std::stoi(inYear)].female += inData;
             }
@@ -70,6 +77,7 @@ int main(){
 
     bool end = false;
     do{
+
         std::string inName;
         std::cout << "Enter Name>>";
         std::cin >> inName;
@@ -83,7 +91,7 @@ int main(){
         
         
         while(countryIter != Names.find(inName)->second.end()){ //Increment country
-            
+
             int males = 0;
             int females = 0;
             auto yearIter = countryIter->second.begin();
@@ -120,6 +128,7 @@ int main(){
 
             countryIter++;
         }
+
         printData(inName, likelySex, sexProb, likelyYear);
     }while(!end);
     //Do math about it
