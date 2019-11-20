@@ -17,7 +17,7 @@ struct Gender{
 struct RollingAvg{
     int totals[3];
     int index = 0;
-    int Avg;
+    int Avg = 0;
 };
 
 void printData(std::string name, std::string likelySex, double sexProb, int highYear, std::string country){
@@ -102,8 +102,8 @@ int main(int argc, char** argv){
             std::cout << "While 2 @" << __LINE__ << std::endl;
             std::cout << countryIter->first << std::endl;
             RollingAvg avg;
-            int males = 0;
-            int females = 0;
+            double males = 0;
+            double females = 0;
             auto yearIter = countryIter->second.begin();
             while(yearIter != countryIter->second.end()){
                 std::cout << "While 3 @" << __LINE__ << std::endl;
@@ -117,20 +117,25 @@ int main(int argc, char** argv){
                 for(int i = 0; i < 3; i++){
                     tempAvg += avg.totals[i]; 
                 }
-                if(tempAvg >= avg.Avg){
+                if(tempAvg > avg.Avg){
                     avg.Avg = tempAvg;
                     likelyYear = yearIter->first - 1;
+                    std::cout << "Likely Year: " << likelyYear << std::endl;
                 }
                 yearIter++;
             }
 
             if(males > females){
+                std::cout << "More Males" << std::endl;
+                std::cout << "Males: " << males << " Females: " << females << std::endl;
                 likelySex = "M";
-                sexProb = males/(males + females);
+                sexProb = males/(males + females) * 100;
             }
             else if(females > males){
+                std::cout << "More Females" << std::endl;
+                std::cout << "Males: " << males << " Females: " << females << std::endl;
                 likelySex = "F";
-                sexProb = females/(males + females);
+                sexProb = females/(males + females) * 100;
 
             }
             else{
