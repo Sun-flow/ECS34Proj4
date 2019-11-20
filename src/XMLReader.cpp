@@ -49,7 +49,7 @@ bool CXMLReader::End(){
     if(!DInput.eof()){
 		DInput.peek();
 	}
-    return DInput.eof();
+    return DInput.eof() and BufferedEntity.empty();
 }
 
 bool CXMLReader::ReadEntity(SXMLEntity &entity, bool skipcdata){

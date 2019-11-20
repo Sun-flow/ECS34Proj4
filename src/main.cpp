@@ -20,8 +20,9 @@ struct RollingAvg{
     int Avg;
 };
 
-void printData(std::string name, std::string likelySex, double sexProb, int highYear){
+void printData(std::string name, std::string likelySex, double sexProb, int highYear, std::string country){
     std::cout << "Name: " << name << std::endl;
+    std::cout << "Country: " << country << std::endl;
     std::cout << "Likely Sex: " << likelySex << " (" << sexProb << "%)" << std::endl;
     std::cout << "Year: " << highYear << std::endl;
 }
@@ -39,45 +40,53 @@ int main(int argc, char** argv){
     
 
     while(!XMLReader.End()){//Read in XML data
-        
         SXMLEntity entity;
-		for(int i = 0; i < 4; i++)
+
+        
+        XMLReader.ReadEntity(entity);
+	    while(!entity.AttributeExists("FILENAME") and !XMLReader.End()){
 			XMLReader.ReadEntity(entity); //Take in first entity
+        }
+        
+        
         //Set up necessary stuff using attributes read in
 	
 		
-
-        std::string inCountry = entity.AttributeValue("COUNTRY");
-        std::string inYear = entity.AttributeValue("YEAR");
-
-        std::ifstream Input("proj4data/" + entity.AttributeValue("FILENAME"), std::ifstream::in);
-        CCSVReader Reader(Input);
-        std::vector< std::string > row;
-		Reader.ReadRow(row);
-        while(!Reader.End()){
-
-			Reader.ReadRow(row);
+        if(entity.AttributeExists("FILENAME")){
+            std::string inCountry = entity.AttributeValue("COUNTRY");
+            std::string inYear = entity.AttributeValue("YEAR");
+            std::cout << "Country: " <<  inCountry << std::endl << "Year: " << inYear << std::endl;
 
 
-            std::string inName = row[0];
-            std::string inGender = row[1];
-            int inData = std::stoi(row[2]);
-            if(inGender == "M"){
+            std::ifstream Input("proj4data/" + entity.AttributeValue("FILENAME"), std::ifstream::in);
+            CCSVReader Reader(Input);
+            std::vector< std::string > row;
+            Reader.ReadRow(row);
+            while(!Reader.End()){
 
-                Names[inName][inCountry][std::stoi(inYear)].male += inData;
-                Names[inName]["All"][std::stoi(inYear)].male += inData;
-            }
-            else if(inGender == "F"){
+                Reader.ReadRow(row);
 
-                Names[inName][inCountry][std::stoi(inYear)].female += inData;
-                Names[inName]["All"][std::stoi(inYear)].female += inData;
+                std::string inName = row[0];
+                std::string inGender = row[1];
+                int inData = std::stoi(row[2]);
+                if(inGender == "M"){
+
+                    Names[inName][inCountry][std::stoi(inYear)].male += inData;
+                    Names[inName]["All"][std::stoi(inYear)].male += inData;
+                }
+                else if(inGender == "F"){
+
+                    Names[inName][inCountry][std::stoi(inYear)].female += inData;
+                    Names[inName]["All"][std::stoi(inYear)].female += inData;
+                }
             }
         }
+        std::cout << "BigWhile" << std::endl;
     }
 
     bool end = false;
     do{
-
+        std::cout << "While 1 @" << __LINE__ << std::endl;
         std::string inName;
         std::cout << "Enter Name>>";
         std::cin >> inName;
@@ -86,16 +95,19 @@ int main(int argc, char** argv){
         double sexProb;
         std::string likelySex;
         int likelyYear;
+        
+        std::cout << countryIter->first << std::endl;
 
-        RollingAvg avg;
-        
-        
         while(countryIter != Names.find(inName)->second.end()){ //Increment country
-
+            std::cout << "While 2 @" << __LINE__ << std::endl;
+            std::cout << countryIter->first << std::endl;
+            RollingAvg avg;
             int males = 0;
             int females = 0;
             auto yearIter = countryIter->second.begin();
             while(yearIter != countryIter->second.end()){
+                std::cout << "While 3 @" << __LINE__ << std::endl;
+                std::cout << yearIter->first << std::endl;
                 males += yearIter->second.male;
                 females += yearIter->second.female;
                 
@@ -125,11 +137,11 @@ int main(int argc, char** argv){
                 likelySex = "M/F";
                 sexProb = 50;
             }
-
+            printData(inName, likelySex, sexProb, likelyYear, countryIter->first);
             countryIter++;
         }
 
-        printData(inName, likelySex, sexProb, likelyYear);
+        
     }while(!end);
     //Do math about it
 
