@@ -119,25 +119,32 @@ TEST(XMLWriter, EmptyTest){
 }
 
 TEST(XMLWriter, SimpleTest){
-    std::ifstream Input("proj4data/smallmanifest.xml");
+	std::stringstream Input("<tag1><tag><other>uuuu</other></tag><p><div></div></p></tag1>");
+	CXMLReader Reader(Input);
+	SXMLEntity Entity;
+	std::ofstream Out("xmlwritetest.xml");
+	CXMLWriter Writer(Out);
 
-    CXMLReader Reader(Input);
-
-    std::filebuf Out;
-    Out.open("XMLOutSmallManifest.xml", std::ios::out);
-
-    std::ostream Output(&Out);
-    CXMLWriter Writer(Output);
-
-    SXMLEntity Entity;
-
-    EXPECT_TRUE(Reader.ReadEntity(Entity));
-    EXPECT_TRUE(Writer.WriteEntity(Entity));
-    EXPECT_TRUE(Reader.ReadEntity(Entity));
-    EXPECT_TRUE(Writer.WriteEntity(Entity));
-    EXPECT_TRUE(Reader.ReadEntity(Entity));
-    EXPECT_TRUE(Writer.WriteEntity(Entity));
-    EXPECT_TRUE(Reader.ReadEntity(Entity));
-    EXPECT_TRUE(Writer.WriteEntity(Entity));
+	while (!Reader.End()) {
+		EXPECT_TRUE(Reader.ReadEntity(Entity));
+		EXPECT_TRUE(Writer.WriteEntity(Entity));
+	}
+	EXPECT_TRUE(Reader.End());
 }
+
+TEST(XMLWriter, FlushTest) {
+	std::stringstream Input("<tag1><tag><other>uuuu</other></tag><p><div></div></p></tag1>");
+	CXMLReader Reader(Input);
+	SXMLEntity Entity;
+	std::ofstream Out("FLUSH.xml");
+	CXMLWriter Writer(Out);
+
+	EXPECT_TRUE(Reader.ReadEntity(Entity));
+	EXPECT_TRUE(Writer.WriteEntity(Entity));
+	EXPECT_TRUE(Reader.ReadEntity(Entity));
+	EXPECT_TRUE(Writer.WriteEntity(Entity));
+	
+	EXPECT_TRUE(Writer.Flush());
+}
+
 
