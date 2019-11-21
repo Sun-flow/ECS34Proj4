@@ -95,8 +95,12 @@ int main(int argc, char** argv){
 		}
 		while (Names.find(inName) == Names.end()) {
 			std::cout << "No existing Data for name " << inName << std::endl;
-			std::cout << "Please enter another name: ";
+			std::cout << "Enter Name>>";
 			std::cin >> inName;
+            i = 0;
+            for (auto &ch : inName) {
+			    inName[i++] = toupper(ch);
+		    }
 		}
         auto countryIter = Names.find(inName)->second.begin();
         double sexProb;
