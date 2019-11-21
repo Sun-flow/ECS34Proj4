@@ -28,9 +28,6 @@ void printData(std::string name, std::string likelySex, double sexProb, int high
 
 int main(int argc, char** argv){
 
-    
-	
-  //  std::ifstream Input("smallmanifest.xml", std::ifstream::in);
 	std::ifstream Input(argv[1]);
 
 	CXMLReader XMLReader(Input); //Get manifest, needs update on file input
@@ -41,20 +38,14 @@ int main(int argc, char** argv){
     while(!XMLReader.End()){//Read in XML data
         SXMLEntity entity;
 
-        
         XMLReader.ReadEntity(entity);
 	    while(!entity.AttributeExists("FILENAME") and !XMLReader.End()){
 			XMLReader.ReadEntity(entity); //Take in first entity
-        }
-        
-        
-        //Set up necessary stuff using attributes read in
-	
+        }	
 		
         if(entity.AttributeExists("FILENAME")){
             std::string inCountry = entity.AttributeValue("COUNTRY");
             std::string inYear = entity.AttributeValue("YEAR");
-
 
             std::ifstream Input("proj4data/" + entity.AttributeValue("FILENAME"), std::ifstream::in);
             CCSVReader Reader(Input);
@@ -84,7 +75,7 @@ int main(int argc, char** argv){
     bool end = false;
     do{
         std::string inName;
-        std::cout << "Enter Name>>";
+        std::cout << "Enter Name>";
         std::cin >> inName;
 		size_t i = 0;
 		for (auto &ch : inName) {
@@ -92,7 +83,7 @@ int main(int argc, char** argv){
 		}
 		while (Names.find(inName) == Names.end()) {
 			std::cout << "No existing Data for name " << inName << std::endl;
-			std::cout << "Enter Name>>";
+			std::cout << "Enter Name>";
 			std::cin >> inName;
             i = 0;
             for (auto &ch : inName) {
@@ -104,7 +95,6 @@ int main(int argc, char** argv){
         std::string likelySex;
         int likelyYear;
         
-
         while(countryIter != Names.find(inName)->second.end()){ //Increment country
             RollingAvg avg;
             double males = 0;
@@ -130,11 +120,11 @@ int main(int argc, char** argv){
             }
 
             if(males > females){
-                likelySex = "M";
+                likelySex = "Male";
                 sexProb = males/(males + females) * 100;
             }
             else if(females > males){
-                likelySex = "F";
+                likelySex = "Female";
                 sexProb = females/(males + females) * 100;
 
             }
@@ -144,13 +134,8 @@ int main(int argc, char** argv){
             }
             printData(inName, likelySex, sexProb, likelyYear, countryIter->first);
             countryIter++;
-        }
-
-        
+        }        
     }while(!end);
-    //Do math about it
-
-    //Use input stream to have user give name, search and return math
 }
 
     
