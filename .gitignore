@@ -98,3 +98,5 @@ XMLOutSimpleTest.txt
 smallmanifest.xml
 ENG1996.csv
 manifest.xml
+FLUSH.xml
+xmlwritetest.xml
