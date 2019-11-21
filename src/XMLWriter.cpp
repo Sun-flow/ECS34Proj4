@@ -12,7 +12,6 @@ CXMLWriter::~CXMLWriter(){
 bool CXMLWriter::Flush(){
     while(!EndElements.empty()){
         WriteEntity(EndElements.back());
-        EndElements.pop_back();
     }
     if(EndElements.empty()){
         return true;
@@ -35,10 +34,11 @@ bool CXMLWriter::WriteEntity(const SXMLEntity &entity){
         return true;
     }
     else if(entity.DType == SXMLEntity::EType::EndElement){
+        outStream << "</" << EndElements.back().DNameData << ">";
         if(entity.DNameData == EndElements.back().DNameData){
             EndElements.pop_back();
         }
-        outStream << "</" << EndElements.back().DNameData << ">";
+        
         return true;
     }
     else if(entity.DType == SXMLEntity::EType::CharData){
