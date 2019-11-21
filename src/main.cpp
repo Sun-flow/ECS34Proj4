@@ -55,7 +55,6 @@ int main(int argc, char** argv){
         if(entity.AttributeExists("FILENAME")){
             std::string inCountry = entity.AttributeValue("COUNTRY");
             std::string inYear = entity.AttributeValue("YEAR");
-            std::cout << "Country: " <<  inCountry << std::endl << "Year: " << inYear << std::endl;
 
 
             std::ifstream Input("proj4data/" + entity.AttributeValue("FILENAME"), std::ifstream::in);
@@ -81,12 +80,10 @@ int main(int argc, char** argv){
                 }
             }
         }
-        std::cout << "BigWhile" << std::endl;
     }
 
     bool end = false;
     do{
-        std::cout << "While 1 @" << __LINE__ << std::endl;
         std::string inName;
         std::cout << "Enter Name>>";
         std::cin >> inName;
@@ -96,44 +93,35 @@ int main(int argc, char** argv){
         std::string likelySex;
         int likelyYear;
         
-        std::cout << countryIter->first << std::endl;
 
         while(countryIter != Names.find(inName)->second.end()){ //Increment country
-            std::cout << "While 2 @" << __LINE__ << std::endl;
-            std::cout << countryIter->first << std::endl;
             RollingAvg avg;
             double males = 0;
             double females = 0;
             auto yearIter = countryIter->second.begin();
             while(yearIter != countryIter->second.end()){
-                std::cout << "While 3 @" << __LINE__ << std::endl;
-                std::cout << yearIter->first << std::endl;
                 males += yearIter->second.male;
                 females += yearIter->second.female;
                 
-                avg.totals[avg.index%3] = males + females;
+                avg.totals[avg.index%3] = yearIter->second.male + yearIter->second.female;
                 avg.index++;
                 double tempAvg = 0;
                 for(int i = 0; i < 3; i++){
                     tempAvg += avg.totals[i]; 
                 }
+                tempAvg = tempAvg/3;
                 if(tempAvg > avg.Avg){
                     avg.Avg = tempAvg;
                     likelyYear = yearIter->first - 1;
-                    std::cout << "Likely Year: " << likelyYear << std::endl;
                 }
                 yearIter++;
             }
 
             if(males > females){
-                std::cout << "More Males" << std::endl;
-                std::cout << "Males: " << males << " Females: " << females << std::endl;
                 likelySex = "M";
                 sexProb = males/(males + females) * 100;
             }
             else if(females > males){
-                std::cout << "More Females" << std::endl;
-                std::cout << "Males: " << males << " Females: " << females << std::endl;
                 likelySex = "F";
                 sexProb = females/(males + females) * 100;
 
