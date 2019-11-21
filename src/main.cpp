@@ -17,16 +17,13 @@ struct Gender{
 };
 
 struct RollingAvg{
-    int totals[3];
+    int totals[3] = {0,0,0};
     int index = 0;
     int Avg = 0;
 };
 
 void printData(std::string name, std::string likelySex, double sexProb, int highYear, std::string country){
-    std::cout << "Name: " << name << std::endl;
-    std::cout << "Country: " << country << std::endl;
-    std::cout << "Likely Sex: " << likelySex << " (" << sexProb << "%)" << std::endl;
-    std::cout << "Year: " << highYear << std::endl;
+    std::cout << country << ": " << likelySex << " (" << sexProb << "%) " << highYear << std::endl;
 }
 
 int main(int argc, char** argv){
@@ -125,6 +122,7 @@ int main(int argc, char** argv){
                 }
                 tempAvg = tempAvg/3;
                 if(tempAvg > avg.Avg){
+                    
                     avg.Avg = tempAvg;
                     likelyYear = yearIter->first - 1;
                 }
