@@ -3,6 +3,8 @@
 #include "XMLReader.h"
 #include "XMLWriter.h"
 #include "XMLEntity.h"
+#include <cctype>
+#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -87,10 +89,18 @@ int main(int argc, char** argv){
     bool end = false;
     do{
         std::cout << "While 1 @" << __LINE__ << std::endl;
-        std::string inName;
+        std::string  inName;
         std::cout << "Enter Name>>";
         std::cin >> inName;
-
+		size_t i = 0;
+		for (auto &ch : inName) {
+			inName[i++] = toupper(ch);
+		}
+		while (Names.find(inName) == Names.end()) {
+			std::cout << "No existing Data for name " << inName << std::endl;
+			std::cout << "Please enter another name: ";
+			std::cin >> inName;
+		}
         auto countryIter = Names.find(inName)->second.begin();
         double sexProb;
         std::string likelySex;
