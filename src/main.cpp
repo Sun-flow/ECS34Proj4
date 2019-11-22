@@ -30,7 +30,7 @@ int main(int argc, char** argv){
 
 	std::ifstream Input(argv[1]);
 
-	CXMLReader XMLReader(Input); //Get manifest, needs update on file input
+	CXMLReader XMLReader(Input);
 
     std::map<std::string , std::map< std::string , std::map< int , Gender > > > Names;
     
@@ -47,7 +47,7 @@ int main(int argc, char** argv){
             std::string inCountry = entity.AttributeValue("COUNTRY");
             std::string inYear = entity.AttributeValue("YEAR");
 
-            std::ifstream Input("proj4data/" + entity.AttributeValue("FILENAME"), std::ifstream::in);
+            std::ifstream Input("proj4data/" + entity.AttributeValue("FILENAME"));
             CCSVReader Reader(Input);
             std::vector< std::string > row;
             Reader.ReadRow(row);
@@ -56,8 +56,15 @@ int main(int argc, char** argv){
                 Reader.ReadRow(row);
 
                 std::string inName = row[0];
+
+                int i = 0;
+                for (auto &ch : inName) {
+			        inName[i++] = toupper(ch);
+		        }
+
                 std::string inGender = row[1];
                 int inData = std::stoi(row[2]);
+
                 if(inGender == "M"){
 
                     Names[inName][inCountry][std::stoi(inYear)].male += inData;
@@ -94,7 +101,7 @@ int main(int argc, char** argv){
         double sexProb;
         std::string likelySex;
         int likelyYear;
-        
+
         while(countryIter != Names.find(inName)->second.end()){ //Increment country
             RollingAvg avg;
             double males = 0;

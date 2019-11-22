@@ -5,7 +5,7 @@
 
 
 CCSVReader::CCSVReader(std::istream &in) :DIn(in) {
-	csv_init(&DParser, CSV_STRICT);//pass a pointer to the struct object, initialized parser
+	csv_init(&DParser, CSV_STRICT);
 }
 
 CCSVReader::~CCSVReader(){
@@ -39,11 +39,13 @@ bool CCSVReader::ReadRow(std::vector< std::string > &row){
 		char Buffer[1024];
 		DIn.read(Buffer, sizeof(Buffer));
 		csv_parse(&DParser, Buffer, DIn.gcount(), EndOfColumn, EndOfRow, this);
+
 		if(DIn.eof()){
 			csv_fini(&DParser, EndOfColumn, EndOfRow, this);
 			break;
 		}
 	}
+	
 	if(DBufferedRows.empty()){
 		return false;
 	}

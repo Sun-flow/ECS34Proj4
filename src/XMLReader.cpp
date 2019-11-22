@@ -4,7 +4,6 @@
 CXMLReader::CXMLReader(std::istream &is) : DInput(is){
     DParser = XML_ParserCreate(NULL);
     XML_SetUserData(DParser, this);
-    //set handlers/callback functions (Chardata, startelement, endelement)
     XML_SetElementHandler(DParser, StartElemHandler, EndElemHandler);
     XML_SetCharacterDataHandler(DParser, CharDataHandler);
 }
@@ -31,7 +30,7 @@ void CXMLReader::StartElemHandler(void *userData, const XML_Char *name, const XM
         for(int i = 0; atts[i] != NULL;i += 2){
             Entity.SetAttribute(std::string(atts[i]), std::string(atts[i+1]));
         }
-    }//!!!FIX!!!
+    }
     Reader->BufferedEntity.push_back(Entity);
 }
 
